@@ -74,5 +74,4 @@ At this stage again OpenSTA is used to perform the Static Timing Analysis.
 Design Rule Check (DRC) is performed by Magic
 Layout Versus Schematic (LVS) is performed by Netgen
 ### 10. GDSII Extraction
-The routed .def file is used my Magic to generate the GDSII file
-$ make
+The routed .def file is used my Magic to generate the GDSII file.
