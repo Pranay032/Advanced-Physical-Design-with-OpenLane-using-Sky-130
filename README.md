@@ -81,7 +81,7 @@ The routed .def file is used my Magic to generate the GDSII file.
 # OpenLane Installation and Environment Setup
 Refer
 
- or
+ [openlane github](https://github.com/The-OpenROAD-Project/OpenLane) or
 
 OpenLane build Script by Nikson Jose
 
