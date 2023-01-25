@@ -24,8 +24,8 @@ Opensource PDK data: Google Skywater130 PDK
 
 The ASIC flow objective is to convert RTL design to GDSII format used for final layout. The flow is essentially a software also known as automated PnR (Place & route).
 
-OpenLane Flow
-enter image description here
+# OpenLane Flow
+images.githubusercontent.com/118599201/214636102-c8d2633b-939a-4c12-a029-78e624016919.png)
 
 ### 1. Synthesis
 The RTL Level Design is then synthesized using a Logic Synthesizer. We use Yosys which is an Open Source Logic Synthesizer. The RTL Netlist is then converted into a synthesised netlist where there are details about the standard cells and its implementations. Yosys takes the RTL design and timing .libs and verilog models of standard cells and converts into a RTL Netlist. abc does the tehnology mapping to the required skywater-pdk variants
