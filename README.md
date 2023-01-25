@@ -19,9 +19,9 @@ The RISC-V Instruction Set Architecture (ISA) is a language used to talk to comp
 The design of digital Application Specific Integrated Circuit (ASIC) requires three enablers or elements - Resistor Transistor Logic Intellectual Property (RTL IPs), Electronic Design Automation (EDA) Tools and Process Design Kit (PDK) data.
 Open Source Digital ASIC Design requires three open-source components:
 
-RTL Designs = github.com, librecores.org, opencores.org
-EDA Tools = OpenROAD, OpenLANE,QFlow
-PDK = Google + Skywater 130nm Production PDK
+1.RTL Designs = github.com, librecores.org, opencores.org
+2.EDA Tools = OpenROAD, OpenLANE,QFlow
+3.PDK = Google + Skywater 130nm Production PDK
 
 The ASIC flow objective is to convert RTL design to GDSII format used for final layout. The flow is essentially a software also known as automated PnR (Place & route).
 
