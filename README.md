@@ -19,9 +19,11 @@ The RISC-V Instruction Set Architecture (ISA) is a language used to talk to comp
 The design of digital Application Specific Integrated Circuit (ASIC) requires three enablers or elements - Resistor Transistor Logic Intellectual Property (RTL IPs), Electronic Design Automation (EDA) Tools and Process Design Kit (PDK) data.
 Open Source Digital ASIC Design requires three open-source components:
 
-1.RTL Designs = github.com, librecores.org, opencores.org
-2.EDA Tools = OpenROAD, OpenLANE,QFlow
-3.PDK = Google + Skywater 130nm Production PDK
+1.RTL Designs = github.com, librecores.org, opencores.org.
+
+2.EDA Tools = OpenROAD, OpenLANE,QFlow.
+
+3.PDK = Google + Skywater 130nm Production PDK.
 
 The ASIC flow objective is to convert RTL design to GDSII format used for final layout. The flow is essentially a software also known as automated PnR (Place & route).
 
@@ -75,3 +77,29 @@ Design Rule Check (DRC) is performed by Magic
 Layout Versus Schematic (LVS) is performed by Netgen
 ### 10. GDSII Extraction
 The routed .def file is used my Magic to generate the GDSII file.
+
+# OpenLane Installation and Environment Setup
+Refer
+
+ or
+
+OpenLane build Script by Nikson Jose
+
+The above repository can be followed if the installation is done on a VirtualMachine/Linux
+
+The following steps are required to run OpenLane inWindows Subsystem for Linux (WSL1) before installation of
+
+OpenLANE Enable WSL1 -
+
+Reference
+Install VSCode and RemoteWSL Extension
+Connect to the WSL and open the folder in WSL
+Download and Install VcXserv to run GUI Applications
+Start VcXserv. Check the "Disable access control box"
+Set the Display number as 0 (or anynumber) In WSL terminal use the commandexport DISPLAY=:0
+Install Docker Desktop in windows
+Enable the below option
+Docker  Setup
+Follow this and install docker dependencies inside WSL
+Every time start docker in WSL to use the docker in windows exposed on the port 2375 using this command echo "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc && source ~/.bashrc This must be done everytime before trying to OpenLane Use docker info to check the status
+This installation can also be done on a remote Linux instance and Putty can be used with X11 fowarding configured to localhost:0 with VcXsrv installed in the host machine with Display number set to 0.
