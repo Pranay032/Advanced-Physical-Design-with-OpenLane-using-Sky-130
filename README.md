@@ -103,3 +103,4 @@ Docker  Setup
 Follow this and install docker dependencies inside WSL
 Every time start docker in WSL to use the docker in windows exposed on the port 2375 using this command echo "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc && source ~/.bashrc This must be done everytime before trying to OpenLane Use docker info to check the status
 This installation can also be done on a remote Linux instance and Putty can be used with X11 fowarding configured to localhost:0 with VcXsrv installed in the host machine with Display number set to 0.
+@Pranay032 
