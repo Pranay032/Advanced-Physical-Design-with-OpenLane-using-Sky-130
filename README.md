@@ -1,5 +1,4 @@
 # Advanced Physical Design with OpenLane using Sky130
-![09](https://user-images.githubusercontent.com/118599201/214614256-6f311a0a-0da4-4844-997d-4ab054307024.png)
 
 # Physical Design with OpenLane using SKY130 PDK
 
@@ -13,7 +12,8 @@ With the advent of open-source technologies for Chip development, there were sev
 ## Inception of Opensource EDA
 ### How to talk to computers?
 The RISC-V Instruction Set Architecture (ISA) is a language used to talk to computers whose hardware is based on RISC-V core. If a user wishes to run a certain application software on a computer, its corresponding C/C++/Java program must be converted into instructions by the compliler. The ouput of the compiler is hardware dependent. These instructions go as inputs to the assembler which outputs binary language that the hardware logic in the chip layout can make sense of. According to the bits received, the digital logic consisting of gates performs the function required by the user of the application software.
-
+### Simplified RTL to GDS flow
+![12](https://user-images.githubusercontent.com/118599201/214760125-609ca56e-de42-4797-99dc-2aeb3dceb149.png)
 ### SoC Design & OpenLANE
 ### Components of opensource digital ASIC design
 The design of digital Application Specific Integrated Circuit (ASIC) requires three enablers or elements - Resistor Transistor Logic Intellectual Property (RTL IPs), Electronic Design Automation (EDA) Tools and Process Design Kit (PDK) data.
@@ -28,7 +28,6 @@ Open Source Digital ASIC Design requires three open-source components:
 The ASIC flow objective is to convert RTL design to GDSII format used for final layout. The flow is essentially a software also known as automated PnR (Place & route).
 
 # OpenLane Flow
-![11](https://user-images.githubusercontent.com/118599201/214637522-dffe65d5-540e-482f-a416-a7b4e58d75f0.png)
 ![openlane_flow](https://user-images.githubusercontent.com/118599201/214636946-686b4cf3-3b6c-4f64-ad76-8fc00f71bee0.png)
 
 ### 1. Synthesis
@@ -104,3 +103,18 @@ Follow this and install docker dependencies inside WSL
 Every time start docker in WSL to use the docker in windows exposed on the port 2375 using this command echo "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc && source ~/.bashrc This must be done everytime before trying to OpenLane Use docker info to check the status
 This installation can also be done on a remote Linux instance and Putty can be used with X11 fowarding configured to localhost:0 with VcXsrv installed in the host machine with Display number set to 0.
 @Pranay032 
+
+
+[TOC]
+
+
+
+
+# Heading 1
+## Heading 2
+### Heading 3
+# Heading 1 {#heading-1}
+## Heading 2 {#heading-2}
+
+- [Heading 1](#heading-1)
+- [Heading 2](#heading-2)
