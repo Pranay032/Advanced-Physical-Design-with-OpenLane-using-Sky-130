@@ -672,31 +672,39 @@ run_synthesis
 ![syyynth](https://user-images.githubusercontent.com/118599201/215535637-2e8e9ce4-2b1a-4a98-955c-ca294b447e78.png)
 ![synth-04](https://user-images.githubusercontent.com/118599201/215535703-1f469e91-3d55-4b5b-97ff-da9b362eaad2.png)
 Next floorplan is run, followed by placement:
+To run the floorplan for the design using a custom standard cell, the standard command "run_floorplan" produces an error. To resolve this issue, we will need to take a longer route and use the internal commands to have greater control over the process.
 
+The first step in this process is to run the "floorplan" command using the following command:
 ```
 init_floorplan
 ```
 ![init](https://user-images.githubusercontent.com/118599201/215540445-ffef8df8-a424-4430-b951-0c00164c86e9.png)
+Then, the second step is to run the IO placer using the following command.
 ```
 place_io
 ```
 ![ioplace](https://user-images.githubusercontent.com/118599201/215540660-56fc54a0-960c-4953-9e86-b235623152f1.png)
+The goal of global placement is to generate a legal placement of blocks that meets the design constraints and sets the foundation for the next step of the design flow.
 ```
 global_placement_or
 ```
 ![global](https://user-images.githubusercontent.com/118599201/215546247-f3ddf303-ca48-4f89-8d22-b2f157189942.png)
+In detailed placement, the blocks or components are placed in a more specific location and orientation on the chip, taking into account the interconnections between the blocks, routing channels, and the overall area utilization of the chip. The output of the detailed placement step is a detailed layout of the circuit, which serves as the basis for the next step in the design flow.
 ```
 detailed_placement
 ```
 ![detailed](https://user-images.githubusercontent.com/118599201/215547349-7b4fcabd-3b73-49ce-a78e-8c19efe92a79.png)
+To prevent irregularities in the power rails, we place tap and decap cells using the following command:
 ```
 tap_decap_or
 ```
 ![tap](https://user-images.githubusercontent.com/118599201/215541582-a54d264a-b2f8-444e-ba62-d6b826418ad3.png)
+We re-run the detailed placement after placing the tap and decap cells. This is done to adjust specific components so that they don't violate any rules, taking into account the wire lengths and capacitances estimated in the previous detailed placement run. The command used is the same:
 ```
 detailed_placement
 ```
 ![tap next](https://user-images.githubusercontent.com/118599201/215541443-58daaed9-2fed-4377-bba3-9cce130dbe6c.png)
+To generate the Power Distribution Network (PDN), we use the following command:
 ```
 gen_pdn
 ```
@@ -731,6 +739,8 @@ The CTS run adds clock buffers in therefore buffer delays come into picture and 
 
 
 ### Routing 
+Routing is connecting components in an IC to form a functional circuit. It finds the optimal path for interconnections between components, considering factors like wire length, congestion, and routing layers, to meet design constraints. Routing is a complex and crucial step, impacting the final performance, power consumption, and area utilization of the chip.
+
 After the completion of the power distribution network generation, we finally run the routing throughout the design with the following command.
 
 
@@ -744,9 +754,8 @@ run_routing
 
 GDS Stands for Graphic Design Standard. This is the file that is sent to the foundry and is called as "tape-out". 
 
-*Fact- Earlier, the GDS files were written on magnetic tapes and sent out to the foundry and hence the name "tape-out"*
 
-In openLane use the command `magic`
+In openLane use the command `run_magic`
 
 The GDSII file is generated in the `results/magic` directory.
 
@@ -767,4 +776,3 @@ Zoom in view:
 
 - [The OpenROAD Project](https://github.com/The-OpenROAD-Project/OpenLane)
 - [Nickson Jose](https://github.com/nickson-jose/vsdstdcelldesign)
-- [Kunal Ghosh](https://github.com/kunalg123)
