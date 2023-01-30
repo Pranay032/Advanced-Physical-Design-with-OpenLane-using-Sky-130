@@ -566,19 +566,17 @@ The easiest way to define a port is through Magic Layout window and following ar
 
 - In Magic Layout window, first source the .mag file for the design (here inverter). Then **Edit >> Text** which opens up a dialogue box.
 
-![2  port definition - A](https://user-images.githubusercontent.com/83152452/185789881-929deae7-d4eb-4842-9829-13a286be397a.png)
+![port A](https://user-images.githubusercontent.com/118599201/215499855-6ad821b2-e71b-49d7-914b-91a7504f7eb6.png)
 
 - For each layer (to be turned into port), make a box on that particular layer and input a label name along with a sticky label of the layer name with which the port needs to be associated. Ensure the Port enable checkbox is checked and default checkbox is unchecked as shown in the figure:
-
-![2  port definition - Y](https://user-images.githubusercontent.com/83152452/185789884-8da9ac43-e273-4c94-9f68-2edbf77fcded.png)
+![port Y](https://user-images.githubusercontent.com/118599201/215500251-4c47e5a4-67a1-4c44-ab9c-2a244b50ad00.png)
 
 In the above two figures, port A (input port) and port Y (output port) are taken from locali (local interconnect) layer. Also, the number in the textarea near enable checkbox defines the order in which the ports will be written in LEF file (0 being the first).
 
 - For power and ground layers, the definition could be same or different than the signal layer. Here, ground and power connectivity are taken from metal1 (Notice the sticky label).
+![port vpwr](https://user-images.githubusercontent.com/118599201/215500229-3a1bca64-b3bc-4d69-a16e-44dc03195287.png)
 
-![2  port definition - VPWR](https://user-images.githubusercontent.com/83152452/185789887-94710eac-40c3-4759-9d85-19aba74d69bf.png) 
-
-![2  port definition - VGND](https://user-images.githubusercontent.com/83152452/185789892-7cf30d76-b01b-4a42-8b05-0c2e8c772d04.png)
+![port vgnd](https://user-images.githubusercontent.com/118599201/215500221-0eea6206-ce1f-4832-ae4a-465bd9330331.png)
 
 
 ### Standard Cell LEF generation
@@ -606,14 +604,14 @@ Select VGND area
 port class inout
 port use ground
 ```
-
+![port direct](https://user-images.githubusercontent.com/118599201/215500275-c3cd769d-5a13-47df-877f-9fa21295f3b9.png)
 LEF extraction can be carried out in tkcon as follows:
 
 ```
 lef write
 ```
 
-![3  lef file extraction](https://user-images.githubusercontent.com/83152452/185790311-f5a68ba1-9e1d-47b1-ae47-d7a6f1a723d2.png)
+![lef](https://user-images.githubusercontent.com/118599201/215501182-c871e87a-8c00-48a2-89f2-41d861fb4a09.png)
 
 This generates ```sky130_vsdinv.lef``` file.
 
@@ -1021,35 +1019,7 @@ There are no max slew violations in the design at the typical corner, There are 
 
 [SUCCESS]: Flow complete.
 
-```
 
-
-### VLSI INTERACTIVE OPENLANE FLOW
-
-```
-
-cd OpenLane/ 
-make mount 
-{ If Error occurs use the below commands in OpenLane directory:
-sudo chown $USER /var/run/docker.sock 
-PYTHON_BIN=python3 make mount
-}
-
-./flow.tcl -interactive
-package require openlane 0.9
-prep -design picorv32a
-run_synthesis
-run_floorplan
-run_placement
-run_cts
-run_routing
-run_magic
-run_magic_spice_export
-run_magic_drc
-run_netgen
-run_magic_antenna_check
-
-```
 
 
 ## Acknowledgements 
