@@ -51,12 +51,8 @@ This project is done in the course ["Advanced Physical Design using OpenLANE/Sky
    - [GDSII](#gdsii)
    - [LEF](#lef)
 7. [Design folder](#design-folder)   
-8. [Differences from older OpenLANE versions](#differences-from-older-openlane-versions)
-9. [Summary](#summary)
-   - [VLSI NON INTERACTIVE OPENLANE FLOW](#vlsi-non-interactive-openlane-flow)
-   - [VLSI INTERACTIVE OPENLANE FLOW](#vlsi-interactive-openlane-flow)
-11. [Acknowledgements](#acknowledgements)
-12. [Author](#author)
+8. [Acknowledgements](#acknowledgements)
+
 
 
 ## Overview
@@ -672,109 +668,51 @@ set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
 add_lefs -src $lefs
 run_synthesis
 ```
-
-![4  merging lef files in picorv command](https://user-images.githubusercontent.com/83152452/185790538-36dc28f1-b75e-4312-83de-4db1dd9564d5.png)
-
+![merge](https://user-images.githubusercontent.com/118599201/215540877-96c8060e-5ef9-412a-a9c4-88a731710a6a.png)
+![syyynth](https://user-images.githubusercontent.com/118599201/215535637-2e8e9ce4-2b1a-4a98-955c-ca294b447e78.png)
+![synth-04](https://user-images.githubusercontent.com/118599201/215535703-1f469e91-3d55-4b5b-97ff-da9b362eaad2.png)
 Next floorplan is run, followed by placement:
 
 ```
-run_floorplan
-run_placement
+init_floorplan
 ```
+![init](https://user-images.githubusercontent.com/118599201/215540445-ffef8df8-a424-4430-b951-0c00164c86e9.png)
+```
+place_io
+```
+![ioplace](https://user-images.githubusercontent.com/118599201/215540660-56fc54a0-960c-4953-9e86-b235623152f1.png)
+```
+global_placement_or
+```
+![global](https://user-images.githubusercontent.com/118599201/215546247-f3ddf303-ca48-4f89-8d22-b2f157189942.png)
+```
+detailed_placement
+```
+![detailed](https://user-images.githubusercontent.com/118599201/215547349-7b4fcabd-3b73-49ce-a78e-8c19efe92a79.png)
+```
+tap_decap_or
+```
+![tap](https://user-images.githubusercontent.com/118599201/215541582-a54d264a-b2f8-444e-ba62-d6b826418ad3.png)
+```
+detailed_placement
+```
+![tap next](https://user-images.githubusercontent.com/118599201/215541443-58daaed9-2fed-4377-bba3-9cce130dbe6c.png)
+```
+gen_pdn
+```
+![get pdn](https://user-images.githubusercontent.com/118599201/215546211-83150a5b-a6c7-46be-acda-0517e1f9acfa.png)
 
 To check the layout invoke magic from the ```results/placement``` directory:
 
 ```
-magic -T /home/devipriya/OpenLane/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.max.lef def read picorv32a.def &
+magic -T /home/devipriya/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
-
+![placement file](https://user-images.githubusercontent.com/118599201/215543571-32286f7b-1dbf-4e53-b8f1-2d4cd093526d.png)
+![placement after get](https://user-images.githubusercontent.com/118599201/215543556-cdc7880b-11e5-47c9-9ead-6c555aa50d6f.png)
 Since the custom standard cell has been plugged into the openLANE flow, it would be visible in the layout.
 
-![sky130_vsdinv](https://user-images.githubusercontent.com/83152452/185794679-cd0de4df-30a6-46bd-b6dd-c73a727d85f4.jpeg)
+![vsdinv ](https://user-images.githubusercontent.com/118599201/215543487-1a6833b5-9d34-4f31-a090-8c32fc2092ab.png)
 
-
-### Post-synthesis timing analysis
-
-Timing analysis is carried out outside the openLANE flow using OpenSTA tool. For this, a new file ```pre_sta.conf``` is created. This file would be reqiured to carry out the STA analysis. Invoke OpenSTA outside the openLANE flow as follows:
-
-```
-sta pre_sta.conf
-```
-
-Since clock tree synthesis has not been performed yet, the analysis is with respect to ideal clocks and only setup time slack is taken into consideration. The slack value is the difference between data required time and data arrival time. The worst slack value must be greater than or equal to zero. If a negative slack is obtained, following steps may be followed:
-1. Change synthesis strategy, synthesis buffering and synthesis sizing values 
-2. Review maximum fanout of cells and replace cells with high fanout
-
-The lef file generated:
-
-![5  generated lef file](https://user-images.githubusercontent.com/83152452/185791680-36453e1a-5b7b-44e4-866f-4d0be2e63b8e.png)
-
-```
-VERSION 5.7 ;
-  NOWIREEXTENSIONATPIN ON ;
-  DIVIDERCHAR "/" ;
-  BUSBITCHARS "[]" ;
-MACRO sky130_vsdinv
-  CLASS CORE ;
-  FOREIGN sky130_vsdinv ;
-  ORIGIN 0.000 0.000 ;
-  SIZE 1.380 BY 2.720 ;
-  SITE unithd ;
-  PIN A
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    ANTENNAGATEAREA 0.165600 ;
-    PORT
-      LAYER li1 ;
-        RECT 0.060 1.180 0.510 1.690 ;
-    END
-  END A
-  PIN Y
-    DIRECTION OUTPUT ;
-    USE SIGNAL ;
-    ANTENNADIFFAREA 0.287800 ;
-    PORT
-      LAYER li1 ;
-        RECT 0.760 1.960 1.100 2.330 ;
-        RECT 0.880 1.690 1.050 1.960 ;
-        RECT 0.880 1.180 1.330 1.690 ;
-        RECT 0.880 0.760 1.050 1.180 ;
-        RECT 0.780 0.410 1.130 0.760 ;
-    END
-  END Y
-  PIN VPWR
-    DIRECTION INOUT ;
-    USE POWER ;
-    PORT
-      LAYER nwell ;
-        RECT -0.200 1.140 1.570 3.040 ;
-      LAYER li1 ;
-        RECT -0.200 2.580 1.430 2.900 ;
-        RECT 0.180 2.330 0.350 2.580 ;
-        RECT 0.100 1.970 0.440 2.330 ;
-      LAYER mcon ;
-        RECT 0.230 2.640 0.400 2.810 ;
-        RECT 1.000 2.650 1.170 2.820 ;
-      LAYER met1 ;
-        RECT -0.200 2.480 1.570 2.960 ;
-    END
-  END VPWR
-  PIN VGND
-    DIRECTION INOUT ;
-    USE GROUND ;
-    PORT
-      LAYER li1 ;
-        RECT 0.100 0.410 0.450 0.760 ;
-        RECT 0.150 0.210 0.380 0.410 ;
-        RECT 0.000 -0.150 1.460 0.210 ;
-      LAYER mcon ;
-        RECT 0.210 -0.090 0.380 0.080 ;
-        RECT 1.050 -0.090 1.220 0.080 ;
-      LAYER met1 ;
-        RECT -0.110 -0.240 1.570 0.240 ;
-    END
-  END VGND
-  ```
 
 
 ### Clock Tree Synthesis
@@ -785,87 +723,22 @@ Before attempting a CTS run in TritonCTS tool, if the slack was attempted to be 
 ```
 run_cts
 ```
-
+![cts](https://user-images.githubusercontent.com/118599201/215548960-8589306b-a75b-44b0-a8ca-d72604ded922.jpeg)
 The CTS run adds clock buffers in therefore buffer delays come into picture and our analysis from here on deals with real clocks. Setup and hold time slacks may now be analysed in the post-CTS STA anlysis in OpenROAD within the openLANE flow:
-
-```
-openroad
-write_db pico_cts.db
-read_db pico_cts.db
-read_verilog /openLANE_flow/designs/picorv32a/runs/03-07_11-25/results/synthesis/picorv32a.synthesis_cts.v
-read_liberty $::env(LIB_SYNTH_COMPLETE)
-link_design picorv32a
-read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
-set_propagated_clock (all_clocks)
-report_checks -path_delay min_max -format full_clock_expanded -digits 4
-```
-
-Slack at the end of STA for typical corner:
-
-![6  cts report-1](https://user-images.githubusercontent.com/83152452/185791682-94f98a0a-56ce-4409-9a66-796675ac5d39.png)
 
 
 ## Final steps in RTL2GDS
 
-### Power Distribution Network generation
-
-Unlike the general ASIC flow, Power Distribution Network generation is not a part of floorplan run in OpenLANE. PDN must be generated after CTS and post-CTS STA analyses:
-
-```
-gen_pdn
-```
-
-We can confirm the success of PDN by checking the current def environment variable: ``` echo $::env(CURRENT_DEF) ```
-
-![pdn def report-1](https://user-images.githubusercontent.com/83152452/185791987-6a53d110-667f-4243-a27f-056ed20e0154.png)
-
-
-- `gen_pdn` - Generates the Power Distribution network
-- The power distribution network has to take the `design_cts.def` as the input def file.
-- This will create the grid and the straps for the Vdd and the ground. These are placed around the standard cells.
-- The standard cells are designed such that it's height is multiples of the space between the Vdd and the ground rails. Here, the pitch is `2.72`. Only if the above conditions are adhered it is possible to power the standard cells.
-- The power to the chip, enters through the `power pads`. There is each for Vdd and Gnd
-- From the pads, the power enters the `rings`, through the `via`
-- The `straps` are connected to the ring. Vdd straps are connected to the Vdd ring and the Gnd Straps are connected to the Gnd ring. There are horizontal and the vertical straps
-- Now the power has to be supplied from the straps to the standard cells. The straps are connected to the `rails` of the standard cells
-- If macros are present then the straps attach to the `rings` of the macros via the `macro pads` and the pdn for the macro is pre-done.
-- There are definitions for the straps and the railss. In this design straps are at metal layer 4 and 5 and the standard cell rails are at the metal layer 1. Vias connect accross the layers as required.
-
 
 ### Routing 
+After the completion of the power distribution network generation, we finally run the routing throughout the design with the following command.
 
-OpenLANE uses the TritonRoute tool for routing. There are 2 stages of routing:
-
-1. Global routing: Routing region is divided into rectangle grids which are represented as course 3D routes (Fastroute tool).
-
-![global routing](https://user-images.githubusercontent.com/83152452/185791992-5d0dadb2-4dc1-493a-bd24-b531298d6442.png)
-
-3. Detailed routing: Finer grids and routing guides used to implement physical wiring (TritonRoute tool).
-
-![detailed routing](https://user-images.githubusercontent.com/83152452/185791995-c8204a98-b61b-48a3-a1ec-642da35d7589.png)
-
-Features of TritonRoute:
-
-1. Honouring pre-processed route guides
-2. Assumes that each net satisfies inter guide connectivity
-3. Uses MILP based panel routing scheme
-4. Intra-layer parallel and inter-layer sequential routing framework
-
-Running routing step in TritonRoute as part of openLANE flow:
 
 ```
 run_routing
 ```
 
-- `run_routing` - To start the routing
-- The options for routing can be set in the `config.tcl` file. 
-- The optimisations in routing can also be done by specifying the routing strategy to use different version of `TritonRoute Engine`. There is a trade0ff between the optimised route and the runtime for routing.
-- For the default setting picorv32a takes approximately 30 minutesaccording to the current version of TritonRoute.
-- This routing stage must have the `CURRENT_DEF` set to `pdn.def`
-- The two stages of routing are performed by the following engines:
-    - Global Route : Fast Route
-    - Detailed Route : Triton Route
-- Fast Route generates the routing guides, whereas Triton Route uses the Global Route and then completes the routing with some strategies and optimisations for finding the best possible path connect the pins.
+![rout1](https://user-images.githubusercontent.com/118599201/215551442-40e99faa-b651-4b93-bd46-e75ebf0840e5.png)
 
 ## GDSII
 
@@ -875,151 +748,19 @@ GDS Stands for Graphic Design Standard. This is the file that is sent to the fou
 
 In openLane use the command `magic`
 
-The GDSII file is generated in the `results/signoff/magic` directory.
+The GDSII file is generated in the `results/magic` directory.
 
 No DRC errors are found.
 
 The layout pictures are shown below:
 
-![3  picorv32a mag layout - without black metal](https://user-images.githubusercontent.com/83152452/185795420-9af80389-7205-4a18-ac1b-0f95bd0f9d5c.png)
+![mag](https://user-images.githubusercontent.com/118599201/215552115-57ea6716-5251-496e-855e-71ad6babb592.png)
 
-![3  picorv32a mag layout](https://user-images.githubusercontent.com/83152452/185795424-bb2cf6ee-87ef-4e60-ac54-5e793d8cf3f4.png)
 
+![layout](https://user-images.githubusercontent.com/118599201/215552209-6d7a0f33-7417-4593-ba00-78711f67b31b.png)
 Zoom in view:
 
-![3  picorv32a mag zoom in view layout](https://user-images.githubusercontent.com/83152452/185795427-f2a5b5c1-00ef-4c39-aaf5-81e04eb9cb50.png)
-
-
-### LEF 
-
-```picorv32a.lef.mag``` file generated is shown below:
-
-![4  picorv32a lef mag layout](https://user-images.githubusercontent.com/83152452/185795429-6fbb2ed0-e787-46d0-a4f7-198ae3bd8fd2.png)
-
-## Design folder
-
-
-```
-
-picorv32a
-├── config.tcl
-├── runs
-│   ├── my_run1
-│   │   ├── config.tcl
-│   │   ├── logs
-│   │   │   ├── cts
-│   │   │   ├── cvc
-│   │   │   ├── floorplan
-│   │   │   ├── klayout
-│   │   │   ├── magic
-│   │   │   ├── placement
-│   │   │   ├── routing
-│   │   │   └── synthesis
-│   │   ├── reports
-│   │   │   ├── cts
-│   │   │   ├── cvc
-│   │   │   ├── floorplan
-│   │   │   ├── klayout
-│   │   │   ├── magic
-│   │   │   ├── placement
-│   │   │   ├── routing
-│   │   │   └── synthesis
-│   │   ├── results
-│   │   │   ├── cts
-│   │   │   ├── cvc
-│   │   │   ├── floorplan
-│   │   │   ├── klayout
-|   |   |   ├── signoff
-│   │   │   ├── magic
-│   │   │   ├── placement
-│   │   │   ├── routing
-│   │   │   └── synthesis
-│   │   └── tmp
-│   │       ├── cts
-│   │       ├── cvc
-│   │       ├── floorplan
-│   │       ├── klayout
-│   │       ├── magic
-│   │       ├── placement
-│   │       ├── routing
-│   │       └── synthesis
-├── src
-|   ├── picorv32a.v
-
-```
-
-## Differences from older OpenLANE versions
-
-- The reports in the latest version is not generated in the terminal, we have to verify them from the reports/results folder.
-- SPEF extraction need not be externally performed in the new version. It has been integrated into the OpenLANE flow.
-
-
-## Summary
-
-### VLSI NON INTERACTIVE OPENLANE FLOW
-
-``` 
-
-cd OpenLane/ 
-make mount 
-{ If Error occurs use the below commands in OpenLane directory:
-sudo chown $USER /var/run/docker.sock 
-PYTHON_BIN=python3 make mount
-}
-
-./flow.tcl -design picorv32a 
-
-```
-
-STEPS RUNNING:
-
-```
-
-[STEP 1] : Running Synthesis.
-[STEP 2] : Running Single-Corner Static Timing Analysis.
-[STEP 3] : Running Initial Floorplanning, Setting Core Dimensions.
-[STEP 4] : Running IO Placement.
-[STEP 5] : Running Power planning with power {VPWR} and ground {VGND}.
-[STEP 6] : Generating PDN.
-[STEP 7] : Performing Random Global Placement.
-[STEP 8] : Running Placement Resizer Design Optimizations.
-[STEP 9] : Writing Verilog.
-[STEP 10] : Running Detailed Placement.
-[STEP 11] : Running Placement Resizer Timing Optimizations.
-[STEP 12] : Writing Verilog, Routing.
-[STEP 13] : Running Global Routing Resizer Timing Optimizations.
-[STEP 14] : Writing Verilog.
-[STEP 15] : Running Detailed Placement.
-[STEP 16] : Running Global Routing, Starting FastRoute Antenna Repair Iterations.
-[STEP 17] : Running Fill Insertion.
-[STEP 18] : Writing Verilog.
-[STEP 19] : Running Detailed Routing, No DRC violations after detailed routing.
-[STEP 20] : Writing Verilog, Running parasitics-based static timing analysis.
-[STEP 21] : Running SPEF Extraction at the min process corner.
-[STEP 22] : Running Multi-Corner Static Timing Analysis at the min process corner.
-[STEP 23] : Running SPEF Extraction at the max process corner.
-[STEP 24] : Running Multi-Corner Static Timing Analysis at the max process corner.
-[STEP 25] : Running SPEF Extraction at the nom process corner...
-[STEP 26] : Running Single-Corner Static Timing Analysis at the nom process corner...
-[STEP 27] : Running Multi-Corner Static Timing Analysis at the nom process corner...
-[STEP 28] : Running Magic to generate various views, Streaming out GDS-II with Magic, Generating MAGLEF views...
-[STEP 29] : Streaming out GDS-II with Klayout...
-[STEP 30] : Running XOR on the layouts using Klayout...
-[STEP 31] : Running Magic Spice Export from LEF...
-[STEP 32] : Writing Powered Verilog.
-[STEP 33] : Writing Verilog.
-[STEP 34] : Running LEF LVS.
-[STEP 35] : Running Magic DRC, Converting Magic DRC Violations to Magic Readable Format, Converting Magic DRC Violations to Klayout Database, Converting DRC Violations to RDB Format, No DRC violations after GDS streaming out, Running Antenna Checks.
-[STEP 36] : Running OpenROAD Antenna Rule Checker.
-[STEP 37] : Running CVC, Saving final set of views, 
-Saving runtime environment, 
-Generating final set of reports, Created manufacturability report at 'designs/riscv/runs/RUN_2022.06.07_10.39.52/reports/manufacturability.rpt', 
-Created metrics report at 'designs/riscv/runs/RUN_2022.06.07_10.39.52/reports/metrics.csv', 
-There are no max slew violations in the design at the typical corner, There are no hold violations in the design at the typical corner, There are no setup violations in the design at the typical corner.
-
-[SUCCESS]: Flow complete.
-
-
+![maggi](https://user-images.githubusercontent.com/118599201/215552162-a6bb7869-4c7d-4164-9b7b-eaf424655d7b.png)
 
 
 ## Acknowledgements 
