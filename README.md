@@ -760,7 +760,7 @@ In openLane use the command `run_magic`
 The GDSII file is generated in the `results/magic` directory.
 
 No DRC errors are found.
-
+![final_1](https://user-images.githubusercontent.com/118599201/215562488-e8567721-f7de-4513-91a5-4525df171863.png)
 The layout pictures are shown below:
 
 ![mag](https://user-images.githubusercontent.com/118599201/215552115-57ea6716-5251-496e-855e-71ad6babb592.png)
@@ -771,7 +771,7 @@ Zoom in view:
 
 ![maggi](https://user-images.githubusercontent.com/118599201/215552162-a6bb7869-4c7d-4164-9b7b-eaf424655d7b.png)
 
-
+![final_1](https://user-images.githubusercontent.com/118599201/215562488-e8567721-f7de-4513-91a5-4525df171863.png)
 ## Acknowledgements 
 
 - [The OpenROAD Project](https://github.com/The-OpenROAD-Project/OpenLane)
