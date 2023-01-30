@@ -49,9 +49,8 @@ This project is done in the course ["Advanced Physical Design using OpenLANE/Sky
    - [Power Distribution Network generation](#power-distribution-network-generation)
    - [Routing](#routing)
    - [GDSII](#gdsii)
-   - [LEF](#lef)
-7. [Design folder](#design-folder)   
-8. [Acknowledgements](#acknowledgements)
+   - [LEF](#lef) 
+7. [Acknowledgements](#acknowledgements)
 
 
 
