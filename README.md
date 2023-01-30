@@ -765,8 +765,7 @@ The layout pictures are shown below:
 ![mag](https://user-images.githubusercontent.com/118599201/215552115-57ea6716-5251-496e-855e-71ad6babb592.png)
 
 ![maggi](https://user-images.githubusercontent.com/118599201/215552162-a6bb7869-4c7d-4164-9b7b-eaf424655d7b.png)
-![layout](https://user-images.githubusercontent.com/118599201/215552209-6d7a0f33-7417-4593-ba00-78711f67b31b.png)
-Zoom in view:
+
 
 
 ![layout](https://user-images.githubusercontent.com/118599201/215552209-6d7a0f33-7417-4593-ba00-78711f67b31b.png)
