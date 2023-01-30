@@ -233,11 +233,11 @@ Flop ratio = Number of D Flip flops
 ```
 
 ```
-dfxtp_4 = 1623,
-Number of cells = 18036,
-Flop ratio = 1623/18036 = 0.08996 = 8.99%
+dfxtp_4 = 1613,
+Number of cells = 14876,
+Flop ratio = 1623/18036 = 0.1084 = 10.84%
 ```
-![19](https://user-images.githubusercontent.com/118599201/215373062-8dbaf2e8-ef96-448e-96ec-94377af12914.png)
+![flip flops](https://user-images.githubusercontent.com/118599201/215404277-57752317-40bc-4957-9280-b918ce53a8aa.png)
 * We may check the success of the synthesis step by checking the synthesis folder for the synthesized netlist file (.v file)
 * The synthesis statistics report can be accessed within the reports directory. It is usually the last yosys file since files are listed chronologically by date of modification.
 
@@ -547,7 +547,7 @@ The above timing parameters can be computed by noting down various values from t
 
 A requirement for ports as specified in ```tracks.info``` is that they should be at intersection of horizontal and vertical tracks. The CMOS Inverter ports A and Y are on li1 layer. It needs to be ensured that they're on the intersection of horizontal and vertical tracks. We access the tracks.info file for the pitch and direction information:
 
-![image](https://user-images.githubusercontent.com/55539862/185734357-8cd10f22-9a23-4cef-af83-f029b344b473.png)
+![day-401](https://user-images.githubusercontent.com/118599201/215430622-4c2dd65d-e4df-4d8c-a037-73cc1876b560.png)
 
 To ensure that ports lie on the intersection point, the grid spacing in Magic (tkcon) must be changed to the li1 X and li1 Y values. Convergence of grid and tracks can be achieved using the following command:
 
@@ -555,10 +555,8 @@ To ensure that ports lie on the intersection point, the grid spacing in Magic (t
 grid 0.46um 0.34um 0.23um 0.17um
 ```
 
-![1  grid activation](https://user-images.githubusercontent.com/83152452/185789868-4a759399-9ee7-4b94-8b11-93283ed4ebfa.png)
 
-![2  grid cells with tkcon window command nd magic layout changes](https://user-images.githubusercontent.com/83152452/185789878-18b441ec-af32-4f3f-b123-2908b864c6fb.png)
-
+![402](https://user-images.githubusercontent.com/118599201/215430913-bd740e90-e1ea-424d-b8a5-962b30b00ed5.png)
 
 ### Create port definition
 
@@ -671,7 +669,7 @@ if { [file exists $filename] == 1 } {
 In order to integrate the standard cell in the OpenLANE flow, invoke openLANE as usual and carry out following steps:
 
 ```
-prep -design picorv32a -tag RUN_2022.08.17_16.22.21 -overwrite
+prep -design picorv32a -tag my_run1 -overwrite
 set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
 add_lefs -src $lefs
 run_synthesis
@@ -908,7 +906,7 @@ Zoom in view:
 picorv32a
 ├── config.tcl
 ├── runs
-│   ├── RUN_2022.08.17_16.22.21
+│   ├── my_run1
 │   │   ├── config.tcl
 │   │   ├── logs
 │   │   │   ├── cts
